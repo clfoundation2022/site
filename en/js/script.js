@@ -908,3 +908,33 @@ var swiper = new Swiper(".slide-content", {
       },
   },
 });
+
+$(document).ready(function () {
+  const timeSaved = localStorage.getItem("Time");
+
+  function getHoursDiff(startDate, endDate) {
+    const msInHour = 1000 * 60 * 60;
+
+    return Math.round(
+      Math.abs(endDate.getTime() - startDate.getTime()) / msInHour
+    );
+  }
+
+  if (timeSaved === null || timeSaved === undefined) {
+    showModal();
+    localStorage.setItem("Time", new Date());
+  } else {
+    const differenceHour = getHoursDiff(new Date(timeSaved), new Date());
+
+    if (differenceHour > 6) {
+      showModal();
+      localStorage.setItem("Time", new Date());
+    }
+  }
+
+  function showModal() {
+    setTimeout(() => {
+      $("#myModal").modal("toggle");
+    }, "3000");
+  }
+});
